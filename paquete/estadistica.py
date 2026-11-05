@@ -1,67 +1,68 @@
-def calcular_maximo(lista: list) -> int:
-    maximo: int = lista[0]
-    for valor in lista:
-        if valor > maximo:
-            maximo = valor
+def calcular_maximo(tabla: dict):
+    maximo = None
+    contador_filas: int = 0
+    while contador_filas < len(tabla["filas"]):
+        contador_columnas: int = 0
+        while contador_columnas < len(tabla["columnas"]):
+            nombre_columna: str = tabla["columnas"][contador_columnas]
+            valor: str = tabla["filas"][contador_filas][nombre_columna]
+            numero: int = int(valor)
+            if maximo is None or numero > maximo:
+                maximo = numero
+            contador_columnas = contador_columnas + 1
+        contador_filas = contador_filas + 1
     return maximo
 
-def calcular_minimo(lista: list) -> int:
-    minimo: int = lista[0]
-    for valor in lista:
-        if valor < minimo:
-            minimo = valor
+def calcular_minimo(tabla: dict):
+    minimo = None
+    contador_filas: int = 0
+    while contador_filas < len(tabla["filas"]):
+        contador_columnas: int = 0
+        while contador_columnas < len(tabla["columnas"]):
+            nombre_columna: str = tabla["columnas"][contador_columnas]
+            valor: str = tabla["filas"][contador_filas][nombre_columna]
+            numero: int = int(valor)
+            if minimo is None or numero < minimo:
+                minimo = numero
+            contador_columnas = contador_columnas + 1
+        contador_filas = contador_filas + 1
     return minimo
 
-def calcular_promedio(lista: list) -> float:
-    acumulador: int = 0
-    contador: int = 0
-    promedio: float = 0.0
-    for valor in lista:
-        acumulador += valor
-        contador += 1
-    if contador!= 0:
-        promedio = acumulador / contador
-    return promedio
-
-def contar_pares(lista: list) -> int:
+def calcular_promedio(tabla: dict):
+    suma: int = 0
     cantidad: int = 0
-    for valor in lista:
-        if valor % 2 == 0:
-            cantidad += 1
-    return cantidad
+    contador_filas: int = 0
+    while contador_filas < len(tabla["filas"]):
+        contador_columnas: int = 0
+        while contador_columnas < len(tabla["columnas"]):
+            nombre_columna: str = tabla["columnas"][contador_columnas]
+            valor: str = tabla["filas"][contador_filas][nombre_columna]
+            numero: int = int(valor)
+            suma = suma + numero
+            cantidad = cantidad + 1
+            contador_columnas = contador_columnas + 1
+        contador_filas = contador_filas + 1
+    if cantidad == 0:
+        return 0
+    return suma / cantidad
 
-def extraer_columna_numerica(tabla: dict, nombre_columna: str) -> list:
-    valores: list = []
-    filas: list = tabla["filas"]
-    for fila in filas:
-        texto: str = fila[nombre_columna]
-        numero: int = int(texto)
-        valores.append(numero)
-    return valores
+def contar_pares(tabla: dict):
+    cantidad_pares: int = 0
+    contador_filas: int = 0
+    while contador_filas < len(tabla["filas"]):
+        contador_columnas: int = 0
+        while contador_columnas < len(tabla["columnas"]):
+            nombre_columna: str = tabla["columnas"][contador_columnas]
+            valor: str = tabla["filas"][contador_filas][nombre_columna]
+            numero: int = int(valor)
+            if numero % 2 == 0:
+                cantidad_pares = cantidad_pares + 1
+            contador_columnas = contador_columnas + 1
+        contador_filas = contador_filas + 1
+    return cantidad_pares
 
-def mostrar_estadisticas(tabla: dict) -> None:
-    print("")
-    print("--- ESTADISTICAS - Punto e ---")
-    print("Columnas disponibles: ")
-    columnas: list = tabla["columnas"]
-    for columna in columnas:
-        print("- " + columna)
-    nombre_columna: str = input("Que columna numerica queres analizar? ")
-    existe: bool = False
-    for columna in columnas:
-        if columna == nombre_columna:
-            existe = True
-    if existe == True:
-        valores: list = extraer_columna_numerica(tabla, nombre_columna)
-        maximo: int = calcular_maximo(valores)
-        minimo: int = calcular_minimo(valores)
-        promedio: float = calcular_promedio(valores)
-        cantidad_pares: int = contar_pares(valores)
-        print("")
-        print("Columna analizada: " + nombre_columna)
-        print("Maximo: " + str(maximo))
-        print("Minimo: " + str(minimo))
-        print("Promedio: " + str(promedio))
-        print("Cantidad de pares: " + str(cantidad_pares))
-    else:
-        print("Esa columna no existe")
+def mostrar_estadisticas(tabla: dict):
+    print("Maximo: ", calcular_maximo(tabla))
+    print("Minimo: ", calcular_minimo(tabla))
+    print("Promedio: ", calcular_promedio(tabla))
+    print("Cantidad de pares: ", contar_pares(tabla))

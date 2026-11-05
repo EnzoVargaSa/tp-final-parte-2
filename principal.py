@@ -1,5 +1,5 @@
-from paquete.estadistica import calcular_maximo, calcular_minimo, calcular_promedio, contar_pares, mostrar_estadisticas
-from paquete.validaciones import es_primo, pedir_entero
+from paquete.estadistica import mostrar_estadisticas
+from paquete.validaciones import pedir_entero, verificar_tabla
 from paquete.tablas import crear_tabla, cargar_secuencial, cargar_distribuida, modificar_tabla
 from paquete.visualizacion import mostrar_tabla
 
@@ -24,11 +24,12 @@ while continuar and (nombre_usuario_ingresado != nombre_usuario_creado or contra
         print("Ha excedido el número máximo de intentos. Su cuenta ha sido bloqueada")
         continuar = False
 else:
-    print("iniciaste sesión")
+    if continuar:
+        print("Iniciaste sesión")
 
 opcion = ""
 
-while opcion != "f" and continuar:
+while opcion != "f" and opcion != "F" and continuar:
     print("")
     print("a) proyectos")
     print("b) tablas")
@@ -38,12 +39,12 @@ while opcion != "f" and continuar:
     print("f) salir")
     opcion = input("Seleccione una opción: ")
 
-    if opcion == "a":
-        num = int(input("Ingrese numero: "))
+    if opcion == "a" or opcion == "A":
+        num = pedir_entero("Ingrese numero: ")
         lista.append(num)
         print(lista)
 
-    elif opcion == "b":
+    elif opcion == "b" or opcion == "B":
         print("ENTRASTE A TABLAS")
         tabla = crear_tabla()
         print("1. Secuencial")
@@ -56,25 +57,19 @@ while opcion != "f" and continuar:
         else:
             print("Opcion incorrecta")
 
-    elif opcion == "c":
-        if tabla is None:
-            print("Primero tenes que crear una tabla en b)")
-        else:
+    elif opcion == "c" or opcion == "C":
+        if verificar_tabla(tabla):
             modificar_tabla(tabla)
 
-    elif opcion == "d":
-        if tabla is None:
-            print("Primero tenes que crear una tabla en b)")
-        else:
+    elif opcion == "d" or opcion == "D":
+        if verificar_tabla(tabla):
             mostrar_tabla(tabla)
 
-    elif opcion == "e":
-        if tabla is None:
-            print("Primero tenes que crear una tabla en b)")
-        else:
+    elif opcion == "e" or opcion == "E":
+        if verificar_tabla(tabla):
             mostrar_estadisticas(tabla)
 
-    elif opcion == "f":
+    elif opcion == "f" or opcion == "F":
         print("Saliendo...")
 
     else:

@@ -67,3 +67,9 @@ def pedir_texto_no_vacio(mensaje: str) -> str:
     else:
         print("Error, no podes dejar vacio.")
         return pedir_texto_no_vacio(mensaje)
+
+def verificar_tabla(tabla) -> bool:
+    if tabla is None:
+        print("Primero tenes que crear una tabla en b)")
+        return False
+    return True

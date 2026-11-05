@@ -1,4 +1,3 @@
-# paquete/tablas.py
 from paquete.validaciones import pedir_entero, pedir_texto_no_vacio
 
 def crear_tabla() -> dict:
