@@ -34,3 +34,36 @@ def validar_nota(valor: float) -> bool:
     if valor >= 1 and valor <= 10:
         validez = True
     return validez
+
+def pedir_entero(mensaje: str) -> int:
+    texto: str = input(mensaje)
+    validez: bool = True
+    if texto == "":
+        validez = False
+    else:
+        i: int = 0
+        while i < len(texto):
+            caracter: str = texto[i]
+            if caracter < "0" or caracter > "9":
+                if i == 0 and caracter == "-":
+                    validez = True
+                else:
+                    validez = False
+            i = i + 1
+    if validez == True:
+        numero: int = int(texto)
+        return numero
+    else:
+        print("Error, tenes que ingresar un numero entero.")
+        return pedir_entero(mensaje)
+
+def pedir_texto_no_vacio(mensaje: str) -> str:
+    texto: str = input(mensaje)
+    validez: bool = False
+    if texto != "":
+        validez = True
+    if validez == True:
+        return texto
+    else:
+        print("Error, no podes dejar vacio.")
+        return pedir_texto_no_vacio(mensaje)

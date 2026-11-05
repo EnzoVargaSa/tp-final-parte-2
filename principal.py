@@ -1,5 +1,7 @@
-from paquete.estadistica import calcular_maximo, calcular_minimo, calcular_promedio, contar_pares
-from paquete.validaciones import es_primo
+from paquete.estadistica import calcular_maximo, calcular_minimo, calcular_promedio, contar_pares, mostrar_estadisticas
+from paquete.validaciones import es_primo, pedir_entero
+from paquete.tablas import crear_tabla, cargar_secuencial, cargar_distribuida, modificar_tabla
+from paquete.visualizacion import mostrar_tabla
 
 continuar = True
 print("Bienvenido al sistema de inicio de sesión.")
@@ -11,22 +13,23 @@ contra_ingresada = input("Ingrese su contraseña para iniciar sesión: ")
 
 contador = 1
 lista = []
+tabla = None
 
-while continuar and (nombre_usuario_ingresado != nombre_usuario_creado or contra_ingresada != contra_creada) and contador < 3:
-    print("Nombre de usuario o contraseña incorrectos. Intente nuevamente.")
+while continuar and (nombre_usuario_ingresado != nombre_usuario_creado or contra_ingresada != contra_creada):
+    print("Nombre de usuario o contraseña incorrecto. Intente nuevamente.")
     nombre_usuario_ingresado = input("Ingrese su nombre de usuario para iniciar sesión: ")
     contra_ingresada = input("Ingrese su contraseña para iniciar sesión: ")
     contador += 1
     if contador == 3:
-        print("Ha excedido el número máximo de intentos. Su cuenta ha sido bloqueada.")
+        print("Ha excedido el número máximo de intentos. Su cuenta ha sido bloqueada")
         continuar = False
-    else:
-        print("iniciaste sesión")
-
+else:
+    print("iniciaste sesión")
 
 opcion = ""
 
 while opcion != "f" and continuar:
+    print("")
     print("a) proyectos")
     print("b) tablas")
     print("c) variables")
@@ -41,35 +44,35 @@ while opcion != "f" and continuar:
         print(lista)
 
     elif opcion == "b":
-        print("Tablas")
+        print("ENTRASTE A TABLAS")
+        tabla = crear_tabla()
+        print("1. Secuencial")
+        print("2. Distribuida")
+        tipo = pedir_entero("Elegi tipo de carga: ")
+        if tipo == 1:
+            cargar_secuencial(tabla)
+        elif tipo == 2:
+            cargar_distribuida(tabla)
+        else:
+            print("Opcion incorrecta")
 
     elif opcion == "c":
-        print("Variables")
+        if tabla is None:
+            print("Primero tenes que crear una tabla en b)")
+        else:
+            modificar_tabla(tabla)
 
     elif opcion == "d":
-        print("Mostrar")
-        print(lista)
+        if tabla is None:
+            print("Primero tenes que crear una tabla en b)")
+        else:
+            mostrar_tabla(tabla)
 
     elif opcion == "e":
-        if len(lista) == 0:
-            print("Lista vacia, carga numeros en a)")
+        if tabla is None:
+            print("Primero tenes que crear una tabla en b)")
         else:
-            print("--- ESTADISTICAS ---")
-            maximo = calcular_maximo(lista)
-            print("Maximo: ", maximo)
-
-            minimo = calcular_minimo(lista)
-            print("Minimo: ", minimo)
-
-            promedio = calcular_promedio(lista)
-            print("Promedio: ", promedio)
-
-            cant_pares = contar_pares(lista)
-            print("Cant pares: ", cant_pares)
-
-            prom_entero = int(promedio)
-            es_prom_primo = es_primo(prom_entero)
-            print("Promedio es primo: ", es_prom_primo)
+            mostrar_estadisticas(tabla)
 
     elif opcion == "f":
         print("Saliendo...")
